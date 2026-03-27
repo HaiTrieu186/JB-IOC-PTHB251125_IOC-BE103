@@ -1,5 +1,5 @@
 package com.example.taskmanagement.model;
 
-public enum Role {
+public enum RoleEnum {
     MEMBER, LEADER
 }

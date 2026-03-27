@@ -1,4 +1,9 @@
 package com.example.taskmanagement.service;
 
-public class IUserService {
+import com.example.taskmanagement.model.User;
+
+import java.util.List;
+
+public interface IUserService{
+    List<User> findAllUsers();
 }
