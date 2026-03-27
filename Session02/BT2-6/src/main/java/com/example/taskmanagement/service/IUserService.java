@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IUserService{
     List<User> findAllUsers();
+    User findById(String id);
 }

@@ -26,7 +26,12 @@ public class TaskRepository {
         tasks.add(new Task("T10", "Phân quyền", "Gán quyền cho user", PriorityEnum.MEDIUM, "U1"));
     }
 
-    public  List<Task> findAll(){
+    public List<Task> findAll() {
         return tasks;
+    }
+
+    public Task add(Task task) {
+        tasks.add(task);
+        return task;
     }
 }

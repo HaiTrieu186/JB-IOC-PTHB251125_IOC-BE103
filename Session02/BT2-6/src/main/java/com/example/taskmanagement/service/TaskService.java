@@ -13,10 +13,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService implements ITaskService {
     private final TaskRepository taskRepository;
+    private final IUserService userService;
 
 
     @Override
     public List<Task> findAllTasks() {
         return taskRepository.findAll();
+    }
+
+    @Override
+    public Task addTask(Task task) {
+        User assignedUser= userService.findById(task.getAssignedTo());
+        if (assignedUser==null){
+            return null;
+        }
+
+        return taskRepository.add(task);
+
     }
 }
