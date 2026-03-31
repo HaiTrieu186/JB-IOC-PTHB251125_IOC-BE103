@@ -25,7 +25,7 @@ public class InstructorServiceImpl implements IInstructorService{
     public Instructor getInstructorById(int id) {
         return instructorRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Lỗi: Không tìm thấy giáo viên với ID: " + id)
-        );;
+        );
     }
 
     @Override
