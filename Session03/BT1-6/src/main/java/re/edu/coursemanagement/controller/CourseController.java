@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import re.edu.coursemanagement.model.ApiRespone;
+import re.edu.coursemanagement.model.ApiResponse;
 import re.edu.coursemanagement.model.Course;
 import re.edu.coursemanagement.service.ICourseService;
 
@@ -22,7 +22,7 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<?> getCourses(){
-        ApiRespone<List<Course>> respone= new ApiRespone<>();
+        ApiResponse<List<Course>> respone= new ApiResponse<>();
         List<Course> list= courseService.getAllCourse();
 
         respone.setSuccess(true);
@@ -34,70 +34,82 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourse(@PathVariable int id){
-        ApiRespone<Course> response= new ApiRespone<>();
-        Course c= courseService.getCourseById(id);
+        ApiResponse<Course> response= new ApiResponse<>();
 
-        response.setData(c);
-        if (c==null){
+        try {
+            Course c= courseService.getCourseById(id);
+            response.setData(c);
+            response.setSuccess(true);
+            response.setMessage("Tìm thấy course tương ứng !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Không tìm thấy course tương ứng !");
-            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        response.setSuccess(true);
-        response.setMessage("Tìm thấy course tương ứng !");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> addCourse(@RequestBody Course course){
-        ApiRespone<Course> response= new ApiRespone<>();
-        Course c= courseService.createCourse(course);
+        ApiResponse<Course> response= new ApiResponse<>();
 
-        response.setData(c);
-        if (c==null){
+        try {
+            Course c= courseService.createCourse(course);
+            response.setData(c);
+            response.setSuccess(true);
+            response.setMessage("Tạo mới thành công !");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        }catch (Exception e){
             response.setSuccess(false);
             response.setMessage("Đã có lỗi trong khi tạo mới course !");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        response.setSuccess(true);
-        response.setMessage("Tạo mới thành công !");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCourse (@PathVariable int id, @RequestBody Course course){
-        ApiRespone<Course> response= new ApiRespone<>();
-        Course c= courseService.updateCourse(course, id);
+        ApiResponse<Course> response= new ApiResponse<>();
 
-        response.setData(c);
-        if (c==null){
+        if (course.getId() != id) {
             response.setSuccess(false);
-            response.setMessage("Đã có lỗi trong khi cập nhật !");
+            response.setMessage("Dữ liệu không hợp lệ: ID trên URL (" + id + ") không khớp với ID trong nội dung gửi lên (" + course.getId() + ")!");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Course c= courseService.updateCourse(course, id);
+            response.setData(c);
+            response.setSuccess(true);
+            response.setMessage("Cập nhật thành công !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        response.setSuccess(true);
-        response.setMessage("Cập nhật thành công !");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCourse(@PathVariable int id){
-        ApiRespone<Course> response= new ApiRespone<>();
-        Course c= courseService.deleteCourseById(id);
+        ApiResponse<Course> response= new ApiResponse<>();
 
-        response.setData(c);
-        if (c==null){
+        try {
+            Course c= courseService.deleteCourseById(id);
+            response.setData(c);
+            response.setSuccess(true);
+            response.setMessage("Xóa course thành công !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Không tìm thấy course tương ứng !");
+            response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
-        response.setSuccess(true);
-        response.setMessage("Xóa course thành công !");
-        return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
     }
 
 

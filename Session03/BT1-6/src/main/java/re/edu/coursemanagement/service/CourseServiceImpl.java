@@ -25,7 +25,9 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public Course getCourseById(int id) {
-        return courseRepository.findById(id);
+        return courseRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Lỗi: Không tìm thấy khóa học với ID: " + id)
+        );
     }
 
     @Override
@@ -35,21 +37,11 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public Course updateCourse(Course course, int id) {
-        Course c = courseRepository.findById(id);
-
-        if (c==null){
-           return null;
-        }
         return courseRepository.update(id, course);
     }
 
     @Override
     public Course deleteCourseById(int id) {
-        Course c = courseRepository.findById(id);
-
-        if (c==null){
-            return null;
-        }
         return courseRepository.deleteById(id);
     }
 

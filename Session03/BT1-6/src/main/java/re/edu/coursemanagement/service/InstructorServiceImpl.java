@@ -23,7 +23,9 @@ public class InstructorServiceImpl implements IInstructorService{
 
     @Override
     public Instructor getInstructorById(int id) {
-        return instructorRepository.findById(id);
+        return instructorRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Lỗi: Không tìm thấy giáo viên với ID: " + id)
+        );;
     }
 
     @Override
@@ -33,23 +35,11 @@ public class InstructorServiceImpl implements IInstructorService{
 
     @Override
     public Instructor updateInstructor(Instructor instructor, int id) {
-        Instructor i = instructorRepository.findById(id);
-
-        if(i==null){
-            return null;
-        }
-
         return instructorRepository.update(id , instructor);
     }
 
     @Override
     public Instructor deleteInstructorById(int id) {
-        Instructor i = instructorRepository.findById(id);
-
-        if(i==null){
-            return null;
-        }
-
         return instructorRepository.deleteById(id);
     }
 

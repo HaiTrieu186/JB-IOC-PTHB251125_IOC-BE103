@@ -3,7 +3,7 @@ package re.edu.coursemanagement.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import re.edu.coursemanagement.model.ApiRespone;
+import re.edu.coursemanagement.model.ApiResponse;
 import re.edu.coursemanagement.model.Enrollment;
 import re.edu.coursemanagement.service.IEnrollmentService;
 
@@ -20,7 +20,7 @@ public class EnrollmentController {
 
     @GetMapping
     public ResponseEntity<?> getEnrollments() {
-        ApiRespone<List<Enrollment>> response= new ApiRespone<>();
+        ApiResponse<List<Enrollment>> response= new ApiResponse<>();
         List<Enrollment> list = enrollmentService.getAllEnrollment();
 
         response.setSuccess(true);
@@ -31,69 +31,78 @@ public class EnrollmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEnrollment(@PathVariable int id) {
-        ApiRespone<Enrollment> response= new ApiRespone<>();
-        Enrollment e = enrollmentService.getEnrollmentById(id);
+        ApiResponse<Enrollment> response= new ApiResponse<>();
 
-        response.setData(e);
-        if (e == null) {
+        try {
+            Enrollment e = enrollmentService.getEnrollmentById(id);
+            response.setSuccess(true);
+            response.setMessage("Tìm thấy đăng ký tương ứng !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Không tìm thấy đăng ký tương ứng !");
+            response.setMessage(e.getMessage());
             return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
 
-        response.setSuccess(true);
-        response.setMessage("Tìm thấy đăng ký tương ứng !");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> addEnrollment(@RequestBody Enrollment enrollment) {
-        ApiRespone<Enrollment> response= new ApiRespone<>();
-        Enrollment e = enrollmentService.createEnrollment(enrollment);
+        ApiResponse<Enrollment> response= new ApiResponse<>();
 
-        response.setData(e);
-        if (e==null){
+        try {
+            Enrollment e = enrollmentService.createEnrollment(enrollment);
+            response.setSuccess(true);
+            response.setMessage("Tạo mới thành công !");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Đã có lỗi trong khi tạo mới đăng ký !");
+            response.setMessage(e.getMessage());
             return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
-
-        response.setSuccess(true);
-        response.setMessage("Tạo mới thành công !");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEnrollment(@PathVariable int id, @RequestBody Enrollment enrollment) {
-        ApiRespone<Enrollment> response= new ApiRespone<>();
-        Enrollment e = enrollmentService.updateEnrollment(enrollment, id);
+        ApiResponse<Enrollment> response= new ApiResponse<>();
 
-        response.setData(e);
-        if (e==null){
+        if (enrollment.getId() != id) {
             response.setSuccess(false);
-            response.setMessage("Đã có lỗi trong khi cập nhật đăng ký !");
+            response.setMessage("Dữ liệu không hợp lệ: ID trên URL (" + id + ") không khớp với ID trong nội dung gửi lên (" + enrollment.getId() + ")!");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Enrollment e = enrollmentService.updateEnrollment(enrollment, id);
+            response.setSuccess(true);
+            response.setMessage("Cập nhật thành công !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
             return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
 
-        response.setSuccess(true);
-        response.setMessage("Cập nhật thành công !");
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEnrollment(@PathVariable int id) {
-        ApiRespone<Enrollment> response= new ApiRespone<>();
-        Enrollment e = enrollmentService.deleteEnrollmentById(id);
+        ApiResponse<Enrollment> response= new ApiResponse<>();
 
-        if (e==null){
+        try {
+            Enrollment e = enrollmentService.deleteEnrollmentById(id);
+            response.setSuccess(true);
+            response.setMessage("Xóa thành công !");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Không tìm thấy đăng ký tương ứng !");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
-
-        response.setSuccess(true);
-        response.setMessage("Xóa thành công !");
-        return new ResponseEntity<>(response,HttpStatus.NO_CONTENT);
     }
 
 

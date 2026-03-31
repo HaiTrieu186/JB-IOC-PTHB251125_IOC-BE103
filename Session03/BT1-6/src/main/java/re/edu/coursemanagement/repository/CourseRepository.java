@@ -6,6 +6,7 @@ import re.edu.coursemanagement.model.StatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CourseRepository implements IRepository<Course> {
@@ -24,8 +25,8 @@ public class CourseRepository implements IRepository<Course> {
     }
 
     @Override
-    public Course findById(int id) {
-        return courses.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+    public Optional<Course> findById(int id) {
+        return courses.stream().filter(x -> x.getId() == id).findFirst();
     }
 
     @Override
@@ -36,14 +37,17 @@ public class CourseRepository implements IRepository<Course> {
 
     @Override
     public Course update(int id, Course course) {
-        Course c = findById(id);
+        Course c = findById(id).orElseThrow(
+                () -> new RuntimeException("Lỗi: Không tìm thấy khóa học với ID: " + id));
+
         courses.set(courses.indexOf(c), course);
         return course;
     }
 
     @Override
     public Course deleteById(int id) {
-        Course c = findById(id);
+        Course c = findById(id).orElseThrow(
+                () -> new RuntimeException("Lỗi: Không tìm thấy khóa học với ID: " + id));
         courses.remove(c);
         return c;
     }

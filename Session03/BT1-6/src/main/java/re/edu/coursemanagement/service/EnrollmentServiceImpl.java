@@ -9,7 +9,7 @@ import re.edu.coursemanagement.repository.IRepository;
 import java.util.List;
 
 @Service
-public class EnrollmentServiceImpl  implements IEnrollmentService{
+public class EnrollmentServiceImpl implements IEnrollmentService {
     private final IRepository<Enrollment> enrollmentRepository;
 
     @Autowired
@@ -24,7 +24,7 @@ public class EnrollmentServiceImpl  implements IEnrollmentService{
 
     @Override
     public Enrollment getEnrollmentById(int id) {
-        return enrollmentRepository.findById(id);
+        return enrollmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Lỗi: Không tìm thấy đăng ký với id " + id));
     }
 
     @Override
@@ -34,21 +34,11 @@ public class EnrollmentServiceImpl  implements IEnrollmentService{
 
     @Override
     public Enrollment updateEnrollment(Enrollment enrollment, int id) {
-        Enrollment e = enrollmentRepository.findById(id);
-
-        if (e==null){
-            return null;
-        }
-        return enrollmentRepository.update(id,enrollment);
+        return enrollmentRepository.update(id, enrollment);
     }
 
     @Override
     public Enrollment deleteEnrollmentById(int id) {
-        Enrollment e = enrollmentRepository.findById(id);
-
-        if (e==null){
-            return null;
-        }
         return enrollmentRepository.deleteById(id);
     }
 }
