@@ -1,11 +1,10 @@
 package re.edu.coursemangement.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import re.edu.coursemangement.entity.DTO.InstructorUpdateRequest;
 import re.edu.coursemangement.entity.Instructor;
-import re.edu.coursemangement.entity.InstructorCreateRequest;
+import re.edu.coursemangement.entity.DTO.InstructorCreateRequest;
 import re.edu.coursemangement.repository.InstructorRepository;
 
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class InstructorServiceImpl implements IInstructorService{
+public class InstructorService implements IInstructorService{
     private final InstructorRepository instructorRepository;
 
 
@@ -39,7 +38,7 @@ public class InstructorServiceImpl implements IInstructorService{
     }
 
     @Override
-    public Instructor updateInstructor(InstructorCreateRequest req, Long id) {
+    public Instructor updateInstructor(InstructorUpdateRequest req, Long id) {
         Instructor crrInstructor = instructorRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Lỗi: Không tìm thấy giáo viên tương ứng !")
         );
