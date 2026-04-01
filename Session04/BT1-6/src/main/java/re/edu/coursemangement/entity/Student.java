@@ -13,16 +13,17 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "instructors")
-public class Instructor {
+@Table(name = "students")
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "instructor")
-    List<Course> courses;
+    @OneToMany(mappedBy = "student")
+    List<StudentEnrollment> enrollments;
+
 }
