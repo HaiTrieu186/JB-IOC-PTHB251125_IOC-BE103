@@ -6,6 +6,7 @@ package re.edu.coursemanagement.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import re.edu.coursemanagement.dto.PageResponse;
 import re.edu.coursemanagement.dto.course.CourseCreateRequest;
 import re.edu.coursemanagement.dto.course.CourseResponse;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
@@ -18,6 +19,6 @@ public interface ICourseService {
     CourseResponse findCourseById(Long id);
     Course createCourse(CourseCreateRequest course);
     Course updateCourse(CourseUpdateRequest course, Long id);
-    Page<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction);
+    PageResponse<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction);
     void deleteCourseById(Long id);
 }

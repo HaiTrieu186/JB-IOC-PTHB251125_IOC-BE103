@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import re.edu.coursemanagement.dto.PageResponse;
 import re.edu.coursemanagement.dto.course.CourseCreateRequest;
 import re.edu.coursemanagement.dto.course.CourseInstructorResponse;
 import re.edu.coursemanagement.dto.course.CourseResponse;
@@ -72,10 +73,13 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public Page<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction) {
+    public PageResponse<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
         Page<Course> pageCourse = courseRepository.findAll(pageable);
-        return pageCourse.map(this::mapCourseToDTO);
+
+        Page<CourseResponse> pageResponse = pageCourse.map(this::mapCourseToDTO);
+
+        return mapPageToPageResponse(pageResponse);
     }
 
     @Override
@@ -98,6 +102,17 @@ public class CourseService implements ICourseService {
                                 .id(course.getInstructor().getId())
                                 .build()
                 )
+                .build();
+    }
+
+    private PageResponse<CourseResponse> mapPageToPageResponse(Page<CourseResponse> page) {
+        return PageResponse.<CourseResponse>builder()
+                .items(page.getContent())
+                .page(page.getNumber())
+                .size(page.getSize())
+                .totalItems(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .isLast(page.isLast())
                 .build();
     }
 }

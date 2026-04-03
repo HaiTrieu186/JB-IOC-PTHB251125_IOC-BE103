@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import re.edu.coursemanagement.dto.PageResponse;
 import re.edu.coursemanagement.dto.course.CourseCreateRequest;
 import re.edu.coursemanagement.dto.course.CourseResponse;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
@@ -31,8 +32,8 @@ public class CourseController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "DESC") Sort.Direction direction
             ){
-        ApiResponse<Page<CourseResponse>> respone= new ApiResponse<>();
-        Page<CourseResponse> list= courseService.getPagedCourses(page, size, sortBy, direction);
+        ApiResponse<PageResponse<CourseResponse>> respone= new ApiResponse<>();
+        PageResponse<CourseResponse> list= courseService.getPagedCourses(page, size, sortBy, direction);
 
         respone.setSuccess(true);
         respone.setMessage("Lấy danh sách sản phẩm thành công !");
