@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import re.edu.coursemangement.entity.Course;
 import re.edu.coursemangement.entity.DTO.CourseCreateRequest;
+import re.edu.coursemangement.entity.DTO.CourseInstructorResponse;
+import re.edu.coursemangement.entity.DTO.CourseResponse;
 import re.edu.coursemangement.entity.DTO.CourseUpdateRequest;
 import re.edu.coursemangement.entity.Instructor;
 import re.edu.coursemangement.repository.CourseRepository;
@@ -11,6 +13,8 @@ import re.edu.coursemangement.repository.InstructorRepository;
 
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,15 +24,19 @@ public class CourseService implements ICourseService {
 
 
     @Override
-    public List<Course> findAllCourse() {
-        return courseRepository.findAll();
+    public List<CourseResponse> findAllCourse() {
+        return courseRepository.findAll().stream().map(
+                this::mapCourseToDTO
+        ).collect(Collectors.toList());
     }
 
     @Override
-    public Course findCourseById(Long id) {
-        return courseRepository.findById(id).orElseThrow(
+    public CourseResponse findCourseById(Long id) {
+        Course course= courseRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Lỗi: Không tìm thấy khóa học tương ứng !")
         );
+
+        return mapCourseToDTO(course);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public Course updateCourse(CourseUpdateRequest course, Long id) {
-        Course currentCourse= courseRepository.findById(id).orElseThrow(
+        Course currentCourse = courseRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Lỗi: Không tìm thấy khóa học tương ứng !")
         );
 
@@ -62,10 +70,24 @@ public class CourseService implements ICourseService {
 
     @Override
     public void deleteCourseById(Long id) {
-        Course currentCourse= courseRepository.findById(id).orElseThrow(
+        Course currentCourse = courseRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Lỗi: Không tìm thấy khóa học tương ứng !")
         );
 
         courseRepository.deleteById(id);
+    }
+
+    private CourseResponse mapCourseToDTO(Course course) {
+        return CourseResponse.builder()
+                .id(course.getId())
+                .title(course.getTitle())
+                .status(course.getStatus())
+                .instructor(
+                        CourseInstructorResponse.builder()
+                                .name(course.getInstructor().getName())
+                                .id(course.getInstructor().getId())
+                                .build()
+                )
+                .build();
     }
 }

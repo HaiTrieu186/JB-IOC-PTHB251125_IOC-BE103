@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import re.edu.coursemangement.entity.ApiResponse;
 import re.edu.coursemangement.entity.Course;
 import re.edu.coursemangement.entity.DTO.CourseCreateRequest;
+import re.edu.coursemangement.entity.DTO.CourseResponse;
 import re.edu.coursemangement.entity.DTO.CourseUpdateRequest;
 import re.edu.coursemangement.service.ICourseService;
 
@@ -21,8 +22,8 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<?> getCourses(){
-        ApiResponse<List<Course>> respone= new ApiResponse<>();
-        List<Course> list= courseService.findAllCourse();
+        ApiResponse<List<CourseResponse>> respone= new ApiResponse<>();
+        List<CourseResponse> list= courseService.findAllCourse();
 
         respone.setSuccess(true);
         respone.setMessage("Lấy danh sách sản phẩm thành công !");
@@ -33,10 +34,10 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourse(@PathVariable Long id){
-        ApiResponse<Course> response= new ApiResponse<>();
+        ApiResponse<CourseResponse> response= new ApiResponse<>();
 
         try {
-            Course c= courseService.findCourseById(id);
+            CourseResponse c= courseService.findCourseById(id);
             response.setData(c);
             response.setSuccess(true);
             response.setMessage("Tìm thấy khóa học tương ứng !");
