@@ -7,10 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import re.edu.coursemanagement.dto.PageResponse;
-import re.edu.coursemanagement.dto.course.CourseCreateRequest;
-import re.edu.coursemanagement.dto.course.CourseInstructorResponse;
-import re.edu.coursemanagement.dto.course.CourseResponse;
-import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
+import re.edu.coursemanagement.dto.course.*;
 import re.edu.coursemanagement.entity.Course;
 import re.edu.coursemanagement.entity.CourseStatus;
 import re.edu.coursemanagement.entity.Instructor;
@@ -75,7 +72,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public PageResponse<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction) {
-        Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
+        Pageable pageable = PageRequest.of(page < 0 ? 0 : page, size, Sort.by(direction, sortBy));
         Page<Course> pageCourse = courseRepository.findAll(pageable);
 
         Page<CourseResponse> pageResponse = pageCourse.map(this::mapCourseToDTO);
@@ -84,15 +81,23 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public PageResponse<CourseResponse> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status) {
+    public PageResponse<CourseResponseV2> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status) {
+/// CÁCH 1: chưa dùng DTO Projection
+        //        Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
+//        Page<Course> pageCourse = courseRepository.findAllByStatus(status, pageable);
+//
+//        Page<CourseResponse> pageResponse = pageCourse.map(
+//                course -> mapCourseToDTO(course)
+//        );
+//
+//        return mapPageToPageResponse(pageResponse);
+
+
+        ///  CÁCH 2:
         Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
-        Page<Course> pageCourse = courseRepository.findAllByStatus(status, pageable);
+        Page<CourseResponseV2> pageCourse= courseRepository.findAllByStatus2(status, pageable);
 
-        Page<CourseResponse> pageResponse = pageCourse.map(
-                course -> mapCourseToDTO(course)
-        );
-
-        return mapPageToPageResponse(pageResponse);
+        return mapPageToPageResponseV2(pageCourse);
     }
 
     @Override
@@ -120,6 +125,17 @@ public class CourseService implements ICourseService {
 
     private PageResponse<CourseResponse> mapPageToPageResponse(Page<CourseResponse> page) {
         return PageResponse.<CourseResponse>builder()
+                .items(page.getContent())
+                .page(page.getNumber())
+                .size(page.getSize())
+                .totalItems(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .isLast(page.isLast())
+                .build();
+    }
+
+    private PageResponse<CourseResponseV2> mapPageToPageResponseV2(Page<CourseResponseV2> page) {
+        return PageResponse.<CourseResponseV2>builder()
                 .items(page.getContent())
                 .page(page.getNumber())
                 .size(page.getSize())

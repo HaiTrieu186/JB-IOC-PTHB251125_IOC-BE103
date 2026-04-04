@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import re.edu.coursemanagement.dto.PageResponse;
 import re.edu.coursemanagement.dto.course.CourseCreateRequest;
 import re.edu.coursemanagement.dto.course.CourseResponse;
+import re.edu.coursemanagement.dto.course.CourseResponseV2;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
 import re.edu.coursemanagement.entity.ApiResponse;
 import re.edu.coursemanagement.entity.Course;
@@ -34,8 +35,8 @@ public class CourseController {
             @RequestParam(defaultValue = "DESC") Sort.Direction direction,
             @RequestParam(defaultValue = "ACTIVE") CourseStatus status
             ){
-        ApiResponse<PageResponse<CourseResponse>> respone= new ApiResponse<>();
-        PageResponse<CourseResponse> list= courseService.getPagedCoursesByStatus(page, size, sortBy, direction, status);
+        ApiResponse<PageResponse<CourseResponseV2>> respone= new ApiResponse<>();
+        PageResponse<CourseResponseV2> list= courseService.getPagedCoursesByStatus(page, size, sortBy, direction, status);
 
         respone.setSuccess(true);
         respone.setMessage("Lấy danh sách sản phẩm thành công !");
