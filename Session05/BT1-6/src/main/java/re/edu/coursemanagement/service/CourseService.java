@@ -12,6 +12,7 @@ import re.edu.coursemanagement.dto.course.CourseInstructorResponse;
 import re.edu.coursemanagement.dto.course.CourseResponse;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
 import re.edu.coursemanagement.entity.Course;
+import re.edu.coursemanagement.entity.CourseStatus;
 import re.edu.coursemanagement.entity.Instructor;
 import re.edu.coursemanagement.repository.CourseRepository;
 import re.edu.coursemanagement.repository.InstructorRepository;
@@ -78,6 +79,18 @@ public class CourseService implements ICourseService {
         Page<Course> pageCourse = courseRepository.findAll(pageable);
 
         Page<CourseResponse> pageResponse = pageCourse.map(this::mapCourseToDTO);
+
+        return mapPageToPageResponse(pageResponse);
+    }
+
+    @Override
+    public PageResponse<CourseResponse> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status) {
+        Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
+        Page<Course> pageCourse = courseRepository.findAllByStatus(status, pageable);
+
+        Page<CourseResponse> pageResponse = pageCourse.map(
+                course -> mapCourseToDTO(course)
+        );
 
         return mapPageToPageResponse(pageResponse);
     }

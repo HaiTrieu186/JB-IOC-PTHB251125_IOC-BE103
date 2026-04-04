@@ -11,6 +11,7 @@ import re.edu.coursemanagement.dto.course.CourseCreateRequest;
 import re.edu.coursemanagement.dto.course.CourseResponse;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
 import re.edu.coursemanagement.entity.Course;
+import re.edu.coursemanagement.entity.CourseStatus;
 
 import java.util.List;
 
@@ -20,5 +21,6 @@ public interface ICourseService {
     Course createCourse(CourseCreateRequest course);
     Course updateCourse(CourseUpdateRequest course, Long id);
     PageResponse<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction);
+    PageResponse<CourseResponse> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status);
     void deleteCourseById(Long id);
 }

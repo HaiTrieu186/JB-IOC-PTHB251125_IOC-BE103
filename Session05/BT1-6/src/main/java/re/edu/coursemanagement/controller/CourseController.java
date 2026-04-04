@@ -13,6 +13,7 @@ import re.edu.coursemanagement.dto.course.CourseResponse;
 import re.edu.coursemanagement.dto.course.CourseUpdateRequest;
 import re.edu.coursemanagement.entity.ApiResponse;
 import re.edu.coursemanagement.entity.Course;
+import re.edu.coursemanagement.entity.CourseStatus;
 import re.edu.coursemanagement.service.ICourseService;
 
 
@@ -30,10 +31,11 @@ public class CourseController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "DESC") Sort.Direction direction
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction,
+            @RequestParam(defaultValue = "ACTIVE") CourseStatus status
             ){
         ApiResponse<PageResponse<CourseResponse>> respone= new ApiResponse<>();
-        PageResponse<CourseResponse> list= courseService.getPagedCourses(page, size, sortBy, direction);
+        PageResponse<CourseResponse> list= courseService.getPagedCoursesByStatus(page, size, sortBy, direction, status);
 
         respone.setSuccess(true);
         respone.setMessage("Lấy danh sách sản phẩm thành công !");
