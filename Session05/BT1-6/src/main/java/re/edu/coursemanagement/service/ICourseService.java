@@ -22,6 +22,6 @@ public interface ICourseService {
     Course createCourse(CourseCreateRequest course);
     Course updateCourse(CourseUpdateRequest course, Long id);
     PageResponse<CourseResponse> getPagedCourses(int page, int size, String sortBy, Sort.Direction direction);
-    PageResponse<CourseResponseV2> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status);
+    PageResponse<CourseResponseV2> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, String keyword, CourseStatus status);
     void deleteCourseById(Long id);
 }

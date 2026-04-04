@@ -1,9 +1,7 @@
 package re.edu.coursemanagement.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +16,6 @@ import re.edu.coursemanagement.entity.CourseStatus;
 import re.edu.coursemanagement.service.ICourseService;
 
 
-import java.awt.print.Pageable;
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor
@@ -30,13 +25,14 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<?> getCourses(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "DESC") Sort.Direction direction,
-            @RequestParam(defaultValue = "ACTIVE") CourseStatus status
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) Sort.Direction direction,
+            @RequestParam(required = false) CourseStatus status,
+            @RequestParam(required = false) String keyword
             ){
         ApiResponse<PageResponse<CourseResponseV2>> respone= new ApiResponse<>();
-        PageResponse<CourseResponseV2> list= courseService.getPagedCoursesByStatus(page, size, sortBy, direction, status);
+        PageResponse<CourseResponseV2> list= courseService.getPagedCoursesByStatus(page, size, sortBy, direction, keyword, status);
 
         respone.setSuccess(true);
         respone.setMessage("Lấy danh sách sản phẩm thành công !");

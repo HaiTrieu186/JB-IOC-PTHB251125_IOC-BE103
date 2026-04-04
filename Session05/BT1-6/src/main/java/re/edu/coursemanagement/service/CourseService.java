@@ -81,7 +81,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public PageResponse<CourseResponseV2> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, CourseStatus status) {
+    public PageResponse<CourseResponseV2> getPagedCoursesByStatus(int page, int size, String sortBy, Sort.Direction direction, String keyword, CourseStatus status) {
 /// CÁCH 1: chưa dùng DTO Projection
         //        Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
 //        Page<Course> pageCourse = courseRepository.findAllByStatus(status, pageable);
@@ -94,8 +94,15 @@ public class CourseService implements ICourseService {
 
 
         ///  CÁCH 2:
-        Pageable pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
-        Page<CourseResponseV2> pageCourse= courseRepository.findAllByStatus2(status, pageable);
+        Pageable pageable;
+        if (direction != null && sortBy != null) {
+            pageable = PageRequest.of(page <0 ? 0: page, size, Sort.by(direction, sortBy));
+        } else
+            pageable = PageRequest.of(page <0 ? 0: page, size);
+
+
+        String keywordParam = (keyword != null) ? "%" + keyword.toLowerCase() + "%" : null;
+        Page<CourseResponseV2> pageCourse= courseRepository.findAllByStatus2(status, keywordParam, pageable);
 
         return mapPageToPageResponseV2(pageCourse);
     }

@@ -24,10 +24,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
                     c.id,c.title, c.status
                     )
                 from Course c 
-                where c.status = :status
+                where (:status is null  or c.status = :status) 
+                and (:keyword is null or lower(c.title) like :keyword  )
             """)
     public Page<CourseResponseV2> findAllByStatus2(
             @Param("status") CourseStatus status,
+            @Param("keyword") String keyword,
             Pageable pageable);
 
 
