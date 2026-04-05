@@ -20,9 +20,9 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int capacity;
+    private Integer capacity;
 
-    private int occupiedSpots;
+    private Integer occupiedSpots;
 
     @OneToMany(mappedBy = "zone")
     private List<ParkingTicket> parkingTickets;

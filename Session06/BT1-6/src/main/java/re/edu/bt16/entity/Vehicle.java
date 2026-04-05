@@ -26,7 +26,7 @@ public class Vehicle {
     private String color;
 
     @Enumerated(EnumType.STRING)
-    private TypeEnum type;
+    private VehicleTypeEnum type;
 
     @OneToMany(mappedBy = "vehicle")
     private List<ParkingTicket> parkingTickets;

@@ -1,6 +1,6 @@
 package re.edu.bt16.entity;
 
 
-public enum TypeEnum {
+public enum VehicleTypeEnum {
     CAR, BIKE
 }
