@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import re.edu.bt16.dto.parking_ticket.TicketRequest;
 import re.edu.bt16.dto.parking_ticket.TicketResponse;
+import re.edu.bt16.dto.parking_ticket.TicketSummaryResponse;
 import re.edu.bt16.entity.ParkingTicket;
 import re.edu.bt16.entity.Vehicle;
 import re.edu.bt16.entity.Zone;
@@ -13,6 +14,8 @@ import re.edu.bt16.repository.VehicleRepository;
 import re.edu.bt16.repository.ZoneRepository;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +67,17 @@ public class ParkingService implements  IParkingService {
         zoneRepository.save(ticket.getZone());
 
         return maptoResponse(ticket, ticket.getVehicle().getLicensePlate(), ticket.getZone().getName());
+    }
+
+    @Override
+    public List<TicketSummaryResponse> getTicketSummary() {
+        // Thời điểm đầu ngày hôm nay (00:00:00)
+        LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
+
+        // Thời điểm cuối ngày hôm nay (23:59:59.999...)
+        LocalDateTime endOfDay = LocalDateTime.now().with(LocalTime.MAX);
+
+        return parkingRepository.getSummary(startOfDay, endOfDay);
     }
 
     private TicketResponse maptoResponse(ParkingTicket ticket, String licensePlate, String zoneName) {
