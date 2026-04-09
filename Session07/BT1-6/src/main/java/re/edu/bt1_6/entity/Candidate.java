@@ -22,4 +22,6 @@ public class Candidate {
     private int age;
     @Column(name = "year_of_experience")
     private int yearsOfExperience;
+    private String address;
+    private String bio;
 }

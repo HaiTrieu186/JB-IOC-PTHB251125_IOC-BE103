@@ -6,8 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CandidateCreateDTO {
-
+public class CandidateUpdateDTO {
     @NotBlank(message = "Lỗi: Tên không được để trống !")
     @Size(min = 5, max = 50, message = "Lỗi: Độ dài tên không hợp lệ (5-50 kí tự)")
     private String fullName;
