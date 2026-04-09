@@ -25,18 +25,8 @@ public class CandidateController {
 
     @PostMapping
     public ResponseEntity<?> createCandidate(
-            @Valid @RequestBody CandidateCreateDTO candidateCreateDTO,
-            BindingResult result
+            @Valid @RequestBody CandidateCreateDTO candidateCreateDTO
     ) {
-        if (result.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-
-            result.getFieldErrors().forEach(err -> {
-                errors.put(err.getField(), err.getDefaultMessage());
-            });
-            return ResponseEntity.badRequest().body(errors);
-        }
-
         return new ResponseEntity<>(candidateService.createCandidate(candidateCreateDTO), HttpStatus.OK);
     }
 

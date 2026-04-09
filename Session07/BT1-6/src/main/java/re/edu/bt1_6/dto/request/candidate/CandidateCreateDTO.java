@@ -13,7 +13,7 @@ public class CandidateCreateDTO {
     @Size(min = 5, max = 50, message = "Lỗi: Độ dài tên không hợp lệ (5-50 kí tự)")
     private String fullName;
     @NotBlank(message = "Lỗi: Email không được để trống")
-    @Email
+    @Email(message = "lỗi: Định dạng email không hợp lệ")
     private String email;
     @NotNull(message = "Lỗi: Tuổi không được để trống")
     @Min(value = 18, message = "Lỗi: Tuổi phải tối thiểu 18 tuổi")
