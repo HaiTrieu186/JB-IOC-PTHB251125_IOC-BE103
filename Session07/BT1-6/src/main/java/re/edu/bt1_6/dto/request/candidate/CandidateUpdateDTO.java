@@ -23,4 +23,7 @@ public class CandidateUpdateDTO {
     private String address;
     @Size(max = 200, message = "Lỗi: Độ dài tiểu sử không quá 200 ký tự")
     private String bio;
+    @NotBlank(message = "Lỗi: Không được để trống SDT")
+    @Pattern( regexp = "^0[0-9]{9}$", message = "Lỗi: Số điện thoại không hợp lệ")
+    private String phone;
 }

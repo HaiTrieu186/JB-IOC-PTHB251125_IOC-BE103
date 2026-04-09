@@ -12,6 +12,7 @@ public class CandidateMapper {
                 .email(candidate.getEmail())
                 .fullName(candidate.getFullName())
                 .yearsOfExperience(candidate.getYearsOfExperience())
+                .phone(candidate.getPhone())
                 .build();
     };
 
@@ -23,6 +24,7 @@ public class CandidateMapper {
         c.setEmail(candidateCreateDTO.getEmail());
         c.setYearsOfExperience(candidateCreateDTO.getYearsOfExperience());
         c.setAge(candidateCreateDTO.getAge());
+        c.setPhone(candidateCreateDTO.getPhone());
 
         return c;
     }

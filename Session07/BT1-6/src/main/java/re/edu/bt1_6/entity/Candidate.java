@@ -24,4 +24,5 @@ public class Candidate {
     private int yearsOfExperience;
     private String address;
     private String bio;
+    private String phone;
 }
