@@ -22,6 +22,18 @@ import java.io.IOException;
 public class BookController {
     private final IBookService bookService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findBookById(@PathVariable Long id){
+        ApiResponse<BookResponse> apiResponse = new ApiResponse<>();
+
+        BookResponse bookResponse = bookService.findBookById(id);
+        apiResponse.setStatus("SUCCESS");
+        apiResponse.setMessage("Tìm thấy sách tương ứng !");
+        apiResponse.setData(bookResponse);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> createBook(@Valid @ModelAttribute BookCreateDTO dto) throws IOException {
         ApiResponse<BookResponse> apiResponse = new ApiResponse<>();

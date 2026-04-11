@@ -61,4 +61,13 @@ public class BookService implements IBookService {
         book= bookRepository.save(book);
         return BookMapper.EntityToResponse(book);
     }
+
+    @Override
+    public BookResponse findBookById(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Lỗi: Không tìm thấy sách với id= "+id)
+        );
+
+        return BookMapper.EntityToResponse(book);
+    }
 }

@@ -9,4 +9,5 @@ import java.io.IOException;
 public interface IBookService {
     BookResponse createBook(BookCreateDTO dto) throws IOException;
     BookResponse updateBook(Long id, BookUpdateStockDTO dto);
+    BookResponse findBookById(Long id);
 }

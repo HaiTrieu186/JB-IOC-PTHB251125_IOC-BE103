@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import re.edu.bt16.dto.ApiResponse;
+import re.edu.bt16.dto.ErrorResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,34 +21,45 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        ApiResponse<Object> apiResponse = new ApiResponse<>();
-        apiResponse.setStatus("FAILED");
-        apiResponse.setMessage(ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse();
 
-        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handlerMethodNotArgumentException(MethodArgumentNotValidException e){
-        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        ErrorResponse errorResponse = new ErrorResponse();
 
-        Map<String, String> errors = new HashMap<>(); // danh sách lỗi
-        e.getFieldErrors().forEach(err->{
-            errors.put(err.getField(), err.getDefaultMessage());
-        });
-        apiResponse.setStatus("FAILED");
-        apiResponse.setMessage("Lỗi: đã có lỗi định dạng dữ liệu");
-        apiResponse.setData(errors);
+//        Map<String, String> errors = new HashMap<>(); // danh sách lỗi
+//        e.getFieldErrors().forEach(err->{
+//            errors.put(err.getField(), err.getDefaultMessage());
+//        });
 
-        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);// 400
+        String errorsMessage = e.getFieldErrors().stream().map(
+                err -> err.getField()+": "+err.getDefaultMessage()
+        ).collect(Collectors.joining(";"));
+
+
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage("Lỗi: "+errorsMessage);
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);// 400
     }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> handleIOException(IOException ex) {
-        ApiResponse<Object> apiResponse = new ApiResponse<>();
-        apiResponse.setStatus("FAILED");
-        apiResponse.setMessage("Lỗi: "+ex.getMessage());
 
-        return new  ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorResponse.setMessage("Lỗi: "+ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new  ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
