@@ -1,6 +1,6 @@
 package re.edu.bt16.mapper;
 
-import re.edu.bt16.dto.response.BookResponse;
+import re.edu.bt16.dto.response.book.BookResponse;
 import re.edu.bt16.entity.Book;
 
 public class BookMapper {

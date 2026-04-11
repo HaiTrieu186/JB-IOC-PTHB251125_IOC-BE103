@@ -1,4 +1,4 @@
-package re.edu.bt16.dto.request;
+package re.edu.bt16.dto.request.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;

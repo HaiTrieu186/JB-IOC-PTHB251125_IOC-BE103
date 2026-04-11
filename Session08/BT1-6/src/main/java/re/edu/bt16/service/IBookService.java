@@ -1,8 +1,8 @@
 package re.edu.bt16.service;
 
-import re.edu.bt16.dto.request.BookCreateDTO;
-import re.edu.bt16.dto.request.BookUpdateStockDTO;
-import re.edu.bt16.dto.response.BookResponse;
+import re.edu.bt16.dto.request.book.BookCreateDTO;
+import re.edu.bt16.dto.request.book.BookUpdateStockDTO;
+import re.edu.bt16.dto.response.book.BookResponse;
 
 import java.io.IOException;
 

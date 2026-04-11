@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 
 
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setMessage("Lỗi: "+errorsMessage);
+        errorResponse.setMessage(errorsMessage);
         errorResponse.setTimestamp(LocalDateTime.now());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);// 400

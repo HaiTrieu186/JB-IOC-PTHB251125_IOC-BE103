@@ -9,9 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import re.edu.bt16.dto.ApiResponse;
-import re.edu.bt16.dto.request.BookCreateDTO;
-import re.edu.bt16.dto.request.BookUpdateStockDTO;
-import re.edu.bt16.dto.response.BookResponse;
+import re.edu.bt16.dto.request.book.BookCreateDTO;
+import re.edu.bt16.dto.request.book.BookUpdateStockDTO;
+import re.edu.bt16.dto.response.book.BookResponse;
 import re.edu.bt16.service.IBookService;
 
 import java.io.IOException;

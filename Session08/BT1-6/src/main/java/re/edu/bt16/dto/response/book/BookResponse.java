@@ -1,4 +1,4 @@
-package re.edu.bt16.dto.response;
+package re.edu.bt16.dto.response.book;
 
 import lombok.Builder;
 import lombok.Getter;
