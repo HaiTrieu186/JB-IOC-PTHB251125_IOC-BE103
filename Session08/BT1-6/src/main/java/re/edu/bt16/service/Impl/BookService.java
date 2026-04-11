@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import re.edu.bt16.dto.request.BookCreateDTO;
+import re.edu.bt16.dto.request.BookUpdateStockDTO;
 import re.edu.bt16.dto.response.BookResponse;
 import re.edu.bt16.entity.Book;
+import re.edu.bt16.exception.ResourceNotFoundException;
 import re.edu.bt16.mapper.BookMapper;
 import re.edu.bt16.repository.IBookRepository;
 import re.edu.bt16.service.IBookService;
@@ -45,6 +47,18 @@ public class BookService implements IBookService {
         book.setCoverUrl(filePath);
 
         book = bookRepository.save(book);
+        return BookMapper.EntityToResponse(book);
+    }
+
+    @Override
+    public BookResponse updateBook(Long id, BookUpdateStockDTO dto) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Lỗi: Không tìm thấy sách với id= "+id)
+        );
+
+        book.setStock(dto.getStock()!= null ? dto.getStock(): book.getStock());
+
+        book= bookRepository.save(book);
         return BookMapper.EntityToResponse(book);
     }
 }

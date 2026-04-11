@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import re.edu.bt16.dto.ApiResponse;
 import re.edu.bt16.dto.request.BookCreateDTO;
+import re.edu.bt16.dto.request.BookUpdateStockDTO;
 import re.edu.bt16.dto.response.BookResponse;
 import re.edu.bt16.service.IBookService;
 
@@ -31,6 +29,20 @@ public class BookController {
         BookResponse bookResponse = bookService.createBook(dto);
         apiResponse.setStatus("SUCCESS");
         apiResponse.setMessage("Tạo mới thành công !");
+        apiResponse.setData(bookResponse);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{id}")
+    public  ResponseEntity<?> updateBook(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid BookUpdateStockDTO dto
+    ){
+        ApiResponse<BookResponse> apiResponse = new ApiResponse<>();
+        BookResponse bookResponse = bookService.updateBook(id, dto);
+        apiResponse.setStatus("SUCCESS");
+        apiResponse.setMessage("Cập nhật thành công");
         apiResponse.setData(bookResponse);
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

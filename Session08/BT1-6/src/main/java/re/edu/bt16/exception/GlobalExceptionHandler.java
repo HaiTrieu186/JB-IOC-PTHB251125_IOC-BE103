@@ -15,6 +15,16 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+        apiResponse.setStatus("FAILED");
+        apiResponse.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handlerMethodNotArgumentException(MethodArgumentNotValidException e){
         ApiResponse<Object> apiResponse = new ApiResponse<>();
