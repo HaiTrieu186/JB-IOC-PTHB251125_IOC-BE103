@@ -14,7 +14,24 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+
+
+    @ExceptionHandler(
+            {DuplicateResourceException.class}
+    )
+    public ResponseEntity<?> handleDuplicateResourceException(DuplicateResourceException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(
+            {ResourceNotFoundException.class}
+    )
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
 
