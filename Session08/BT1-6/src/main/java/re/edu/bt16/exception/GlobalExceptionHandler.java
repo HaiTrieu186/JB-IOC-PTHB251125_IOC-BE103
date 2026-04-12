@@ -19,6 +19,17 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
 
+    @ExceptionHandler({BookAlreadyReturnedException.class, OutOfStockException.class})
+    public ResponseEntity<?> handleBookAlreadyReturnedException(BookAlreadyReturnedException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();

@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import re.edu.bt16.dto.ApiResponse;
 import re.edu.bt16.dto.request.borrow.BorrowCreateDTO;
 import re.edu.bt16.dto.response.borrow.BorrowRespone;
@@ -28,6 +25,21 @@ public class BorrowController {
         response.setData(borrowRespone);
         response.setMessage("Tạo mới thành công !");
         response.setStatus("SUCCESS");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PatchMapping("/{id}/return")
+    public ResponseEntity<?> returnBorrow(
+            @PathVariable("id") Long ticketId
+    ){
+        ApiResponse<BorrowRespone>response = new ApiResponse<>();
+        BorrowRespone borrowRespone= borrowService.returnBook(ticketId);
+
+        response.setData(borrowRespone);
+        response.setStatus("SUCCESS");
+        response.setMessage("Trả sách thành công !");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
