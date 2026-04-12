@@ -3,10 +3,9 @@ package re.edu.bt16.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import re.edu.bt16.dto.request.EmployeeCreateDTO;
-import re.edu.bt16.dto.request.EmployeeUpdateDTO;
+import re.edu.bt16.dto.request.EmployeeUpdateAvatarDTO;
 import re.edu.bt16.dto.response.EmployeeResponse;
 import re.edu.bt16.entity.Department;
 import re.edu.bt16.entity.Employee;
@@ -76,7 +75,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public EmployeeResponse updateEmployee(EmployeeUpdateDTO dto, Long empId) throws IOException {
+    public EmployeeResponse updateEmployee(EmployeeUpdateAvatarDTO dto, Long empId) throws IOException {
         Employee e = employeeRepository.findById(empId).orElseThrow(
                 () -> new ResourceNotFoundException("Lỗi: Không tìm thấy nhân viên với id: "+empId)
         );

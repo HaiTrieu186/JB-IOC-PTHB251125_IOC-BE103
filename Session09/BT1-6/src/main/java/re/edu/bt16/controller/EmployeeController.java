@@ -7,9 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import re.edu.bt16.dto.ApiResponse;
 import re.edu.bt16.dto.request.EmployeeCreateDTO;
-import re.edu.bt16.dto.request.EmployeeUpdateDTO;
+import re.edu.bt16.dto.request.EmployeeUpdateAvatarDTO;
 import re.edu.bt16.dto.response.EmployeeResponse;
-import re.edu.bt16.entity.Employee;
 import re.edu.bt16.service.IEmployeeService;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class EmployeeController {
 
     @PutMapping("/{id}/avatar")
     public  ResponseEntity<?> updateAvatarEmployee(
-            @Valid @ModelAttribute EmployeeUpdateDTO dto,
+            @Valid @ModelAttribute EmployeeUpdateAvatarDTO dto,
             @PathVariable Long id) throws IOException {
         ApiResponse<EmployeeResponse> apiResponse = new ApiResponse<>();
         EmployeeResponse er = employeeService.updateEmployee(dto, id);

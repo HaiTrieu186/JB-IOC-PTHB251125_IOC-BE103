@@ -8,7 +8,7 @@ import re.edu.bt16.validation.ValidFileExtension;
 
 @Getter
 @Setter
-public class EmployeeUpdateDTO {
+public class EmployeeUpdateAvatarDTO {
     @NotNull(message = "Lỗi: không được để trống avatar")
     @ValidFileExtension(extensions = {"png","jpg","jpeg"})
     private MultipartFile avatarFile;
