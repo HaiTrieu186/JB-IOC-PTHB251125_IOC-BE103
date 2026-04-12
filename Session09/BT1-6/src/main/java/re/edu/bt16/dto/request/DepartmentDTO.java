@@ -9,11 +9,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class DepartmentDTO {
     @NotBlank(message = "Lỗi: Không được để trống tên phòng ban")
     @Size(min=5, max=50, message = "Lỗi: Độ dài tên phòng ban phải nằm trong khoảng 5-50 ký tự")
     private String name;
-    @Max(50)
+    @Size(max = 100, message = "Lỗi: độ dài mô tả tối đa 100 ký tự")
     private String description;
 }
