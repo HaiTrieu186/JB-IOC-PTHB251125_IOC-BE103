@@ -3,6 +3,8 @@ package re.edu.bt16.dto.request;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+import re.edu.bt16.validation.ValidFileExtension;
 
 import java.math.BigDecimal;
 
@@ -19,4 +21,6 @@ public class EmployeeCreateDTO {
     private BigDecimal salary;
     @NotNull(message = "Lỗi: Không được để trống mã phòng ban")
     private Long departmentId;
+    @ValidFileExtension(extensions = {"png","jpg","jpeg"})
+    private MultipartFile avatarFile;
 }

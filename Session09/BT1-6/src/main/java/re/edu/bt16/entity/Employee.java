@@ -19,6 +19,7 @@ public class Employee {
     private String email;
     private String phone;
     private BigDecimal salary;
+    private String avatarUrl;
 
     @ManyToOne
     @JoinColumn(name = "department_id")

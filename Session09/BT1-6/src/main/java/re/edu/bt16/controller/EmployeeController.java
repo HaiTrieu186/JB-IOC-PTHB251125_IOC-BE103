@@ -4,15 +4,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import re.edu.bt16.dto.ApiResponse;
 import re.edu.bt16.dto.request.EmployeeCreateDTO;
+import re.edu.bt16.dto.request.EmployeeUpdateDTO;
 import re.edu.bt16.dto.response.EmployeeResponse;
 import re.edu.bt16.entity.Employee;
 import re.edu.bt16.service.IEmployeeService;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class EmployeeController {
     private final IEmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeCreateDTO dto) {
+    public ResponseEntity<?> createEmployee(@Valid @ModelAttribute EmployeeCreateDTO dto) throws IOException {
         ApiResponse<EmployeeResponse> apiResponse = new ApiResponse<>();
 
         EmployeeResponse er = employeeService.createEmployee(dto);
@@ -30,5 +30,18 @@ public class EmployeeController {
         apiResponse.setStatus("SUCCESS");
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/avatar")
+    public  ResponseEntity<?> updateAvatarEmployee(
+            @Valid @ModelAttribute EmployeeUpdateDTO dto,
+            @PathVariable Long id) throws IOException {
+        ApiResponse<EmployeeResponse> apiResponse = new ApiResponse<>();
+        EmployeeResponse er = employeeService.updateEmployee(dto, id);
+        apiResponse.setData(er);
+        apiResponse.setStatus("SUCCESS");
+        apiResponse.setMessage("Cập nhật avatar thành công");
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

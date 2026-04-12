@@ -11,6 +11,7 @@ public class EmployeeMapper {
                 .email(employee.getEmail())
                 .phone(employee.getPhone())
                 .salary(employee.getSalary())
+                .avatarUrl(employee.getAvatarUrl())
                 .departmentId(employee.getDepartment().getId())
                 .build();
     }
