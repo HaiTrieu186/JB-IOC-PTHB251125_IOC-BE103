@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import re.edu.bt36.dto.request.PrescriptionCreateDTO;
+import re.edu.bt36.dto.response.ApiResponse;
+import re.edu.bt36.dto.response.Meta;
 import re.edu.bt36.dto.response.PrescriptionResponse;
 import re.edu.bt36.service.PatientService;
 
@@ -20,19 +22,32 @@ public class PatientController {
             @PathVariable Long patientId,
             @PathVariable Long prescriptionId) {
 
+        ApiResponse<PrescriptionResponse> apiResponse = new ApiResponse<>();
         PrescriptionResponse response = patientService.getPrescriptionById(patientId, prescriptionId);
 
-        return ResponseEntity.ok(response);
+        apiResponse.setStatus("Success");
+        apiResponse.setData(response);
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setMeta(new Meta());
+        return ResponseEntity.ok(apiResponse);
     }
 
 
     // POST /api/v1/patients/{patientId}/prescriptions
     @PostMapping("/{patientId}/prescriptions")
-    public ResponseEntity<PrescriptionResponse> createPrescription(
+    public ResponseEntity<?> createPrescription(
             @PathVariable Long patientId,
             @RequestBody PrescriptionCreateDTO dto) {
 
+        ApiResponse<PrescriptionResponse> apiResponse = new ApiResponse<>();
         PrescriptionResponse response = patientService.addPrescription(dto, patientId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+
+        apiResponse.setStatus("Success");
+        apiResponse.setData(response);
+        apiResponse.setCode(HttpStatus.CREATED.value());
+        apiResponse.setMeta(new Meta());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 }
