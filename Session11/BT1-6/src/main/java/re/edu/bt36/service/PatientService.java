@@ -8,7 +8,7 @@ import re.edu.bt36.dto.response.PatientResponse;
 import re.edu.bt36.dto.response.PrescriptionResponse;
 import re.edu.bt36.entity.Patient;
 import re.edu.bt36.entity.Prescription;
-import re.edu.bt36.exception.ResourceNotFound;
+import re.edu.bt36.exception.ResourceNotFoundException;
 import re.edu.bt36.mapper.PatientMapper;
 import re.edu.bt36.mapper.PrescriptionMapper;
 import re.edu.bt36.repository.IPatientRepository;
@@ -26,7 +26,7 @@ public class PatientService {
     public List<PrescriptionResponse> findAllPrescriptionsByPatientId(Long patientId)
     {
         Patient patient = patientRepository.findById(patientId).orElseThrow(
-                () -> new ResourceNotFound("Lỗi: không tìm thấy bệnh nhân với id: "+patientId)
+                () -> new ResourceNotFoundException("Lỗi: không tìm thấy bệnh nhân với id: "+patientId)
         );
 
         List<Prescription> list= patient.getPrescriptions();
@@ -36,12 +36,12 @@ public class PatientService {
 
     public PrescriptionResponse getPrescriptionById(Long patientId, Long prescriptionId) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(
-                () -> new ResourceNotFound("Lỗi: không tìm thấy bệnh nhân với id: " + patientId)
+                () -> new ResourceNotFoundException("Lỗi: không tìm thấy bệnh nhân với id: " + patientId)
         );
 
         // Tìm đơn thuốc theo ID
         Prescription prescription = prescriptionRepository.findById(prescriptionId).orElseThrow(
-                () -> new ResourceNotFound("Lỗi: không tìm thấy đơn thuốc với id: " + prescriptionId)
+                () -> new ResourceNotFoundException("Lỗi: không tìm thấy đơn thuốc với id: " + prescriptionId)
         );
 
         // Kiểm tra xem đơn thuốc này có đúng là của bệnh nhân này không
@@ -54,7 +54,7 @@ public class PatientService {
 
     public PrescriptionResponse addPrescription(PrescriptionCreateDTO dto, Long patientId){
         Patient patient = patientRepository.findById(patientId).orElseThrow(
-                () -> new ResourceNotFound("Lỗi: không tìm thấy bệnh nhân với id: " + patientId)
+                () -> new ResourceNotFoundException("Lỗi: không tìm thấy bệnh nhân với id: " + patientId)
         );
 
         Prescription newPrescription = new Prescription();
