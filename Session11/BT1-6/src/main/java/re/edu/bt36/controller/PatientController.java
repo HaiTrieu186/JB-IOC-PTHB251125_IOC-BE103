@@ -68,6 +68,9 @@ public class PatientController {
             log.warn("Cảnh báo: Tuổi của bệnh nhân {} được gửi lên quá cao ({} tuổi)", dto.getFullName(), dto.getAge());
         }
 
+        // Test tính năng tạo log cho error
+        log.error("CẤP CỨU: Bệnh nhân {} đang trong tình trạng nguy kịch, tim ngừng đập!", dto.getFullName());
+
 
         PatientResponse response = patientService.createPatient(dto);
 

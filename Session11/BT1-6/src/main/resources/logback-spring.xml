@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+                <!--Tên Appender    -->
+    <appender name="FILE_EMERGENCY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!--   Đường dẫn và ten file    -->
+        <file>logs/emergency.log</file>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!--   Loại log level, do là ThresholdFilter nên nếu là Fatal nó sẽ áp dụng lun, tức là >= level    -->
+            <level>ERROR</level>
+        </filter>
+
+<!--     Đây là cách thiết lập chỉ cho chính xác 1 loại level đi qua
+<filter class="ch.qos.logback.classic.filter.LevelFilter">
+    <level>WARN</level>
+    <onMatch>ACCEPT</onMatch>
+     <onMismatch>DENY</onMismatch>
+    </filter>-->
+
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/emergency-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    Gắn vào tương ứng-->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_EMERGENCY" />
+    </root>
+
+</configuration>
