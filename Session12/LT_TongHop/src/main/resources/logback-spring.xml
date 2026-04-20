@@ -1,0 +1,29 @@
+<configuration>
+
+    <!-- 1. Console — log bình thường -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 2. File riêng cho history -->
+    <appender name="HISTORY_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/history.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger tên "HISTORY_LOGGER" → chỉ ghi vào history.log -->
+    <!-- additivity="false" → không bị lặp lên Console -->
+    <logger name="HISTORY_LOGGER" level="INFO" additivity="false">
+        <appender-ref ref="HISTORY_FILE"/>
+    </logger>
+
+    <!-- Mọi log khác → Console -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
