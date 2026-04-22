@@ -22,7 +22,7 @@ public interface ISupplyTransactionRepository extends JpaRepository<SupplyTransa
             where st.type = re.edu.lt_tonghop.entity.TransactionType.EXPORT 
                 AND st.transactionDate >= :startOfDay
                 AND st.transactionDate <= :endOfDay
-            group by st.medicalSupply.id  
+            group by st.medicalSupply.id, st.medicalSupply.name  
             """)
     // khi lọc theo khoảng rộng hơn thì chỉ cần truyền tham số xa hơn thôi
     List<DailyExportResponse> getDailyExport(
@@ -40,7 +40,7 @@ public interface ISupplyTransactionRepository extends JpaRepository<SupplyTransa
                 )
             from SupplyTransaction st
             where st.type = re.edu.lt_tonghop.entity.TransactionType.EXPORT 
-            group by st.medicalSupply.id
+            group by st.medicalSupply.id, st.medicalSupply.name
             order by sum(st.amount) desc 
     """)
     List<TopExportResponse> findTopExport(Pageable pageable);
