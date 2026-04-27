@@ -11,6 +11,7 @@ import re.edu.bt16.entity.User;
 import re.edu.bt16.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,11 +22,10 @@ public class UserDetailServiceCustom implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException(username)
+                () -> new UsernameNotFoundException("Không tìm thấy user với username:"+username)
         );
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
         return new UserPrincipal(user, authorities);
     }
 }

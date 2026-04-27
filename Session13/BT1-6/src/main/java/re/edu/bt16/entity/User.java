@@ -18,6 +18,7 @@ public class User {
     private Long id;
     @Column(unique = true)
     private String username;
+    private String fullName;
     private String password;
     private String role; //Ví dụ: "USER", "ADMIN")
     private Boolean enabled= true;
