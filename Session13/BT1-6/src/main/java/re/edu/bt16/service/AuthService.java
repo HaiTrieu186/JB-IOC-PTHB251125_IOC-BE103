@@ -1,9 +1,14 @@
 package re.edu.bt16.service;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import re.edu.bt16.dto.request.LoginRequest;
 import re.edu.bt16.dto.request.RegisterRequest;
 import re.edu.bt16.entity.User;
 import re.edu.bt16.repository.UserRepository;
@@ -30,5 +35,21 @@ public class AuthService {
         user = userRepository.save(user);
 
         return user;
+    }
+
+    public String login (LoginRequest dto, HttpSession  session){
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(
+                        dto.getUsername(),
+                        dto.getPassword());
+
+        Authentication authentication = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        //  Lưu vào Session
+        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+        return "Đăng nhập thành công! Role: " + authentication.getAuthorities();
     }
 }
