@@ -1,5 +1,8 @@
 package re.edu.bt16.config.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,9 +51,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
+            } catch (MalformedJwtException e) {
+                log.error("Invalid token: {}", e.getMessage());
+                request.setAttribute("exception", "MALFORMED_TOKEN");
+            } catch (UnsupportedJwtException e) {
+                log.error("Unsupported token: {}", e.getMessage());
+                request.setAttribute("exception", "UNSUPPORTED_TOKEN");
+            } catch (ExpiredJwtException e) {
+                log.error("Expired token: {}", e.getMessage());
+                request.setAttribute("exception", "EXPIRED_TOKEN");
+            } catch (IllegalArgumentException e) {
+                log.error("Jwt key string invalid: {}", e.getMessage());
+                request.setAttribute("exception", "ILLEGAL_ARGUMENT_TOKEN");
             } catch (Exception e) {
-                log.error("Không thể thiết lập xác thực người dùng: {}", e.getMessage());
+                log.error("Lỗi không xác định khi xác thực Token: {}", e.getMessage());
+                request.setAttribute("exception", "UNKNOWN_ERROR");
             }
+        } else {
+            request.setAttribute("exception", "MISSING_TOKEN");
         }
 
         // Cho phép request đi tiếp

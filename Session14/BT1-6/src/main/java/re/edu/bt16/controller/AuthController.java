@@ -32,15 +32,15 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest dto) {
         User u = authService.register(dto);
 
-        ApiResponse<User> response = new ApiResponse<>("Đăng ký thành công", 200, u);
+        ApiResponse<User> response = new ApiResponse<>("SUCCESS",HttpStatus.OK.value(),"Đăng ký thành công",u);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest dto) {
-        Map<String, String> tokenData = authService.login(dto);
+        Map<String, String> token = authService.login(dto);
 
-        ApiResponse<Map<String, String>> response = new ApiResponse<>("Đăng nhập thành công", 200, tokenData);
+        ApiResponse<Map<String, String>> response = new ApiResponse<>("SUCCESS",HttpStatus.OK.value(),"Đăng nhập thành công",token);
         return ResponseEntity.ok(response);
     }
 }
