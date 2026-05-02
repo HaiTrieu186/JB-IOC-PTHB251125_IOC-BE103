@@ -45,6 +45,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             errorResponse = new ErrorResponse<>(status, code,
                     "Lỗi xác thực Token: Token bị thiếu hoặc không được cung cấp", null, LocalDateTime.now());
         } else {
+
             // Lỗi xác thực chung
             errorResponse = new ErrorResponse<>(status, code, "Lỗi xác thực Token: " + authException.getMessage(), null, LocalDateTime.now());
         }
