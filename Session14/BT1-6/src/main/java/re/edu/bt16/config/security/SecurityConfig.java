@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import re.edu.bt16.config.jwt.JwtAuthenticationFilter;
 import re.edu.bt16.service.UserDetailServiceCustom;
 
 
@@ -20,6 +22,7 @@ import re.edu.bt16.service.UserDetailServiceCustom;
 public class SecurityConfig {
 
     private final UserDetailServiceCustom userDetailServiceCustom;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,6 +37,7 @@ public class SecurityConfig {
                         auth.requestMatchers("/api/v1/auth/**").permitAll()// Cho phép login/reg
                                 .anyRequest().authenticated() // Còn lại phải có Token
                 )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
