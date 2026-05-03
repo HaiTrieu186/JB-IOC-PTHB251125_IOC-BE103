@@ -38,6 +38,10 @@ dependencies {
     // StructMap
     // Source: https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+
+    // Source: https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44
+    implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.39.0'
+
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 

@@ -8,12 +8,29 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import re.edu.bt16.dto.response.ErrorResponse;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(
+            {DuplicateResourceException.class}
+    )
+    public ResponseEntity<?> handleDuplicateResourceException(DuplicateResourceException ex) {
+        ErrorResponse<?> errorResponse = new ErrorResponse<>();
+
+        errorResponse.setStatus("FAIL");
+        errorResponse.setCode(HttpStatus.CONFLICT.value());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex) {
         ErrorResponse<?> response = new ErrorResponse<>(
@@ -43,6 +60,19 @@ public class GlobalExceptionHandler {
                 "FAIL", HttpStatus.BAD_REQUEST.value(), "Dữ liệu đầu vào không hợp lệ", errors, LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> handleIOException(IOException ex) {
+
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus("FAIL");
+        errorResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorResponse.setMessage("Lỗi: "+ex.getMessage());
+        errorResponse.setTimestamp(LocalDateTime.now());
+
+        return new  ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)

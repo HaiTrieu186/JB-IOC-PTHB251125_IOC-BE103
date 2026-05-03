@@ -20,5 +20,10 @@ public class Employee {
     private Long id;
     @Column(name = "full_name", nullable = false)
     private String fullName;
-    private BigDecimal salary;
+    @Column(unique = true)
+    private String email;
+    private String department;
+    @Column(name = "avataer_url")
+    private String avatarUrl;
+    private BigDecimal salary=BigDecimal.ZERO;
 }
