@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+# Bỏ qua file chứa secret key
+src/main/resources/application.properties
