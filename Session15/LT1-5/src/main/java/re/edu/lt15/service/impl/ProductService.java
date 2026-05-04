@@ -12,6 +12,7 @@ import re.edu.lt15.entity.Product;
 import re.edu.lt15.mapper.ProductMapper;
 import re.edu.lt15.repository.ProductRepository;
 import re.edu.lt15.service.IProductService;
+import re.edu.lt15.utils.PageUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class ProductService implements IProductService {
         }
         Page<ProductResponse> productPage= productRepository.getProducts(keywordParam, pageable);
 
-        return productMapper.toPageResponse(productPage);
+        return PageUtils.toPageResponse(productPage);
     }
 
     @Override

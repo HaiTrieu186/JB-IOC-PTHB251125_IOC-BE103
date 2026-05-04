@@ -1,4 +1,4 @@
-package re.edu.lt15.dto.response;
+package re.edu.lt15.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

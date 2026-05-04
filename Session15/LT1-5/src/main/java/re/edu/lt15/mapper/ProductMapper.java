@@ -17,12 +17,4 @@ public interface ProductMapper {
     // 2. Map DTO -> Entity
     Product toEntity(ProductRequestDTO dto);
 
-    // 3. Map  Page -> PageResponse
-    @Mapping(source = "content", target = "items")          // getContent() -> items
-    @Mapping(source = "number", target = "page")            // getNumber() -> page
-    @Mapping(source = "size", target = "size")              // getSize() -> size
-    @Mapping(source = "totalElements", target = "totalItems") // getTotalElements() -> totalItems
-    @Mapping(source = "totalPages", target = "totalPages")  // getTotalPages() -> totalPages
-    @Mapping(source = "last", target = "isLast")            // isLast() -> isLast
-    PageResponse<ProductResponse> toPageResponse(Page<ProductResponse> page);
 }

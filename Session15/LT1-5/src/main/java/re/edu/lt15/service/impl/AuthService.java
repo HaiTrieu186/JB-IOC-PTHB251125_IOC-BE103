@@ -14,7 +14,7 @@ import re.edu.lt15.config.security.UserPrincipal;
 import re.edu.lt15.dto.request.LoginRequestDTO;
 import re.edu.lt15.dto.request.RegisterRequestDTO;
 import re.edu.lt15.dto.response.AuthResponseDTO;
-import re.edu.lt15.dto.response.RefreshTokenRequestDTO;
+import re.edu.lt15.dto.request.RefreshTokenRequestDTO;
 import re.edu.lt15.dto.response.UserResponse;
 import re.edu.lt15.entity.User;
 import re.edu.lt15.exception.DuplicateResourceException;
@@ -50,7 +50,7 @@ public class AuthService implements IAuthService {
         //  Map sang Entity
         User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole("ROLE_USER");
+        user.setRole("ROLE_CUSTOMER");
 
         // Lưu
         User savedUser = userRepository.save(user);

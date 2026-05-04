@@ -13,7 +13,7 @@ import re.edu.lt15.dto.request.LoginRequestDTO;
 import re.edu.lt15.dto.request.RegisterRequestDTO;
 import re.edu.lt15.dto.response.ApiResponse;
 import re.edu.lt15.dto.response.AuthResponseDTO;
-import re.edu.lt15.dto.response.RefreshTokenRequestDTO;
+import re.edu.lt15.dto.request.RefreshTokenRequestDTO;
 import re.edu.lt15.dto.response.UserResponse;
 import re.edu.lt15.service.impl.AuthService;
 
