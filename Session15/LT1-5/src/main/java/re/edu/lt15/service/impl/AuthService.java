@@ -1,4 +1,4 @@
-package re.edu.lt15.service;
+package re.edu.lt15.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -6,9 +6,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import re.edu.lt15.config.jwt.JwtProvider;
 import re.edu.lt15.config.security.UserPrincipal;
 import re.edu.lt15.dto.request.LoginRequestDTO;
@@ -20,13 +20,15 @@ import re.edu.lt15.entity.User;
 import re.edu.lt15.exception.DuplicateResourceException;
 import re.edu.lt15.mapper.UserMapper;
 import re.edu.lt15.repository.UserRepository;
+import re.edu.lt15.service.IAuthService;
 
 import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements IAuthService{
+@Transactional
+public class AuthService implements IAuthService {
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;

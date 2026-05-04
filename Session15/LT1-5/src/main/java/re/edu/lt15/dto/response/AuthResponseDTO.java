@@ -1,12 +1,12 @@
 package re.edu.lt15.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class AuthResponseDTO {
     private String accessToken;
     private String refreshToken;

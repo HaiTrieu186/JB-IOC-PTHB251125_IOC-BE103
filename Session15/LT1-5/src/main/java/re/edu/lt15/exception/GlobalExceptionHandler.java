@@ -1,5 +1,6 @@
 package re.edu.lt15.exception;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +16,15 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<?> handleJwtException(JwtException ex) {
+        ErrorResponse<?> response = new ErrorResponse<>(
+                "FAIL", HttpStatus.UNAUTHORIZED.value(), "Refresh Token không hợp lệ hoặc đã hết hạn. Vui lòng đăng nhập lại!", null, LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
     @ExceptionHandler(
             {DuplicateResourceException.class}
     )

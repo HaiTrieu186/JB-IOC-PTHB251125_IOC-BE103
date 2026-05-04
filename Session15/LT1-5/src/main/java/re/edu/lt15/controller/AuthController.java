@@ -15,7 +15,7 @@ import re.edu.lt15.dto.response.ApiResponse;
 import re.edu.lt15.dto.response.AuthResponseDTO;
 import re.edu.lt15.dto.response.RefreshTokenRequestDTO;
 import re.edu.lt15.dto.response.UserResponse;
-import re.edu.lt15.service.AuthService;
+import re.edu.lt15.service.impl.AuthService;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,8 +46,11 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(
-            @Valid @RequestBody RefreshTokenRequestDTO request
+            @Valid @RequestBody RefreshTokenRequestDTO dto
     ) {
-        return ResponseEntity.ok(authService.refreshToken(request));
+        AuthResponseDTO dto2 = authService.refreshToken(dto);
+
+        ApiResponse<AuthResponseDTO> response = new ApiResponse<>("SUCCESS", HttpStatus.OK.value(), "Làm mới Token thành công", dto2);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

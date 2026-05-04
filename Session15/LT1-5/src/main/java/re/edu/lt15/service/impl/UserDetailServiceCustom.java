@@ -1,4 +1,4 @@
-package re.edu.lt15.service;
+package re.edu.lt15.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

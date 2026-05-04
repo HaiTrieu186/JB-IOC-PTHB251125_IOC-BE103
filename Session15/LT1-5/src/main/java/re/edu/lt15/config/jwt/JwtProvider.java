@@ -21,7 +21,7 @@ public class JwtProvider {
     private String secretKey;
 
     @Value("${service.jwt.expiration}")
-    private long jwtExpiration; //  1 ngày
+    private long jwtExpiration; //  5 phút
 
     @Value("${service.jwt.refresh-expiration}")
     private long refreshExpiration; // 7 ngày

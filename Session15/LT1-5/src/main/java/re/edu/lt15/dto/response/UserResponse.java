@@ -1,13 +1,13 @@
 package re.edu.lt15.dto.response;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class UserResponse {
     private Long id;
     private String email;
